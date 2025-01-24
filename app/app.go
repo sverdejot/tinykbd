@@ -69,7 +69,7 @@ func find(ports []string) string {
 func returnWhenReady(port string) (serial.Port, bool) {
 	var pErr *serial.PortError
 
-// gonna recurisve-call the func but goto is safe here
+	// gonna recurisve-call the func but goto is safe here
 retry:
 	p, err := serial.Open(port, &serial.Mode{})
 	switch {
