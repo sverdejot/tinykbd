@@ -1,0 +1,31 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    # I'll be building just for Apple Silicion, sorry Windows/non-ARM users
+    runs-on: macos-latest
+    env:
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      AWS_REGION: eu-south-2 
+      BIN_FILE_S3_KEY: tinykbd/tinykbd
+      INSTALL_SCRIPT_S3_KEY: tinykbd/install.sh
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version-file: 'go.mod'
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ secrets.ROLE_ARN }}
+    - run: make dist
+
