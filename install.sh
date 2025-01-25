@@ -13,7 +13,7 @@ exec >>"$LOG_FILE" 2>&1
 
 curl -sSfLO "$BINARY_URL"
 if [ $? -ne 0 ]; then
-  exit 1
+    exit 1
 fi
 
 chmod +x "$BINARY_NAME"
